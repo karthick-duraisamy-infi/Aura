@@ -1,14 +1,30 @@
-import { CommonService } from "../Services";
+import { build } from "vite";
+import { ChatBotService, CommonService } from "../Services";
 
-const service = CommonService.enhanceEndpoints({}).injectEndpoints({
-  endpoints: (build: any) => ({
-    // getArticlesList: build.mutation<any[], {}>({
-    //   query: () => "locals/dummy_data/articles.json",
-    // })
+// Inject endpoints properly without typing 'build' manually
+const articleService = CommonService.enhanceEndpoints({}).injectEndpoints({
+  endpoints: (build) => ({
+    getChatBotResponse: build.query<any[], void>({
+      query: () => "StaticData/responseData.json",
+    }),
   }),
   overrideExisting: true,
 });
 
-export const {
-//   useGetArticlesListMutation,
-} = service;
+const RealService = ChatBotService.enhanceEndpoints({}).injectEndpoints({
+  endpoints: (build) => ({
+    getAccessResponse: build.mutation<any, any>({
+      query: (param) => {
+        return {
+          url: `sessions/create/`,
+          method: 'POST',
+          body: param
+        };
+      },
+    })
+  })
+})
+
+export const { useGetChatBotResponseQuery } = articleService;
+
+export const { useGetAccessResponseMutation } = RealService;

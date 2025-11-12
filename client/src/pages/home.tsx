@@ -8,7 +8,7 @@ import RecentActivities from "@/components/RecentActivities";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
-import config from '../config.json';
+import config from "../config.json";
 import {
   Wand2,
   FileText,
@@ -25,6 +25,10 @@ import {
   Sparkles,
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import {
+  useGetAccessResponseMutation,
+  useGetChatBotResponseQuery,
+} from "@/service/chatbot/chatbot";
 
 type ViewMode = "input" | "report" | "dashboard";
 type FeedbackState = null | "yes" | "no";
@@ -37,6 +41,10 @@ interface Activity {
 }
 
 export default function Home() {
+  const { data, error, isLoading } = useGetChatBotResponseQuery();
+
+  const [ accessTokenService, accessTokenServiceStatus ] = useGetAccessResponseMutation();
+
   const { toast } = useToast();
   const [query, setQuery] = useState("");
   const [viewMode, setViewMode] = useState<ViewMode>("input");
@@ -50,6 +58,32 @@ export default function Home() {
   const [isLoadingData, setIsLoadingData] = useState(false);
   const [reportHeaderText, setReportHeaderText] = useState<string>("");
 
+  useEffect(() => {
+    accessTokenService({
+      app_name: "report_agent",
+      user_id: 1,
+      email_id: "grouprm@infinitisoftware.net",
+      first_name: "Ashwin",
+      last_name: "sathish",
+      group_alias: "RM",
+      app_code: "RM",
+      state: {},
+    });
+  }, []);
+
+  useEffect(() => {
+    console.log(accessTokenServiceStatus);
+  }, [accessTokenServiceStatus])
+
+
+
+  // useEffect(() => {
+  //   getchatbotResponse({});
+  // }, [])
+
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
 
   const parseTableFromText = (text: string) => {
     const lines = text.split("\n");
@@ -104,7 +138,7 @@ export default function Home() {
 
       if (jsonData.parts && jsonData.parts[0] && jsonData.parts[0].text) {
         const { columns, data, headerText } = parseTableFromText(
-          jsonData.parts[0].text,
+          jsonData.parts[0].text
         );
         setReportColumns(columns);
         setReportData(data);
@@ -223,20 +257,26 @@ export default function Home() {
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
       <div className="flex min-h-screen">
         {/* Left Sidebar - Recent Activities (30%) - Only show on input mode */}
-        {config?.isRecentActivity && activities.length > 0 && viewMode === "input" && (
-          <div className="hidden lg:block w-[30%] border-r border-border/50 sticky top-0 h-screen overflow-y-auto">
-            <div className="p-6">
-              <RecentActivities
-                activities={activities}
-                onActivityClick={handleActivityClick}
-              />
+        {config?.isRecentActivity &&
+          activities.length > 0 &&
+          viewMode === "input" && (
+            <div className="hidden lg:block w-[30%] border-r border-border/50 sticky top-0 h-screen overflow-y-auto">
+              <div className="p-6">
+                <RecentActivities
+                  activities={activities}
+                  onActivityClick={handleActivityClick}
+                />
+              </div>
             </div>
-          </div>
-        )}
+          )}
 
         {/* Main Content Area (70% or 100% if no activities) */}
         <div
-          className={`flex-1 ${activities.length > 0 && viewMode === "input" ? "lg:w-[70%]" : "w-full"} overflow-y-auto`}
+          className={`flex-1 ${
+            activities.length > 0 && viewMode === "input"
+              ? "lg:w-[70%]"
+              : "w-full"
+          } overflow-y-auto`}
         >
           <div className="max-w-5xl mx-auto px-4 py-8 md:py-12 md:px-8 lg:px-12">
             {viewMode === "input" && (
