@@ -28,6 +28,7 @@ import { useToast } from "@/hooks/use-toast";
 import {
   useGetAccessResponseMutation,
   useGetChatBotResponseQuery,
+  useGetUserResponseMutation,
 } from "@/service/chatbot/chatbot";
 
 type ViewMode = "input" | "report" | "dashboard";
@@ -43,6 +44,8 @@ interface Activity {
 export default function Home() {
   const { data, error, isLoading } = useGetChatBotResponseQuery();
 
+  const [getUserResponse, getUserResponseStatus] = useGetUserResponseMutation();
+
   const [ accessTokenService, accessTokenServiceStatus ] = useGetAccessResponseMutation();
 
   const { toast } = useToast();
@@ -54,6 +57,7 @@ export default function Home() {
   const [activities, setActivities] = useState<Activity[]>([]);
   const [currentReportTitle, setCurrentReportTitle] = useState("");
   const [reportData, setReportData] = useState<any[]>([]);
+  const [jsonData, setJsonData] = useState<any>([]);
   const [reportColumns, setReportColumns] = useState<any[]>([]);
   const [isLoadingData, setIsLoadingData] = useState(false);
   const [reportHeaderText, setReportHeaderText] = useState<string>("");
@@ -83,7 +87,23 @@ export default function Home() {
 
   useEffect(() => {
     console.log(data);
+    let dataIndex: number = -1;
+
+    data?.map((info: any, index: number) => {
+      if(info?.content?.role === "model") {
+        dataIndex = index;
+      }
+    })
+    if(dataIndex > -1) {
+      console.log('dataIndex', dataIndex)
+      setJsonData((data as any)[dataIndex]?.content)
+      console.log((data as any)[dataIndex]?.content?.parts[0].text)
+    }
   }, [data]);
+
+  useEffect(() => {
+    console.log(getUserResponseStatus);
+  }, [getUserResponseStatus])
 
   const parseTableFromText = (text: string) => {
     const lines = text.split("\n");
@@ -133,9 +153,6 @@ export default function Home() {
   const loadReportData = async () => {
     setIsLoadingData(true);
     try {
-      const response = await fetch("/StaticData/responseData.json");
-      const jsonData = await response.json();
-
       if (jsonData.parts && jsonData.parts[0] && jsonData.parts[0].text) {
         const { columns, data, headerText } = parseTableFromText(
           jsonData.parts[0].text
@@ -173,6 +190,21 @@ export default function Home() {
   ];
 
   const handleGenerateReport = () => {
+    let requestData = {
+      app_name: "report_agent",
+      user_id: "1",
+      app_code: "RM",
+      session: "1-RM-RM-8434b3de",
+      new_message: {
+        role: "user",
+        parts: [
+          {
+            text: "Hello",
+          },
+        ],
+      },
+    };
+    getUserResponse(requestData)
     console.log("Generate Report triggered", query);
     const title = query || "Booking List - Last Month";
     setCurrentReportTitle(title);

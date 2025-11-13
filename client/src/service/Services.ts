@@ -11,8 +11,11 @@ const CommonService = createApi({
 });
 
 const getBaseUrl = () => {
-  return import.meta.env.VITE_API_URL
-}
+  if (window?.location?.href?.includes("localhost")) {
+    return import.meta.env.VITE_API_URL;
+  }
+  return window?.location?.href;
+};
 
 const ChatBotService = createApi({
   reducerPath: "mailApi",

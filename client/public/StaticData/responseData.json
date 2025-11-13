@@ -1,7 +1,627 @@
-{
-  "parts": [
-    {
-      "text": "Here is the booking list for last month:\n\n| Group request id | PNR | PNR status | Amount paid | Request type | Trip type | Group Name | Per pax fare |\n|---|---|---|---|---|---|---|---|\n| 20301.0 | DSTJHJ | APPROVED | 65460.00 | Series | One-way | test | 6546.00 |\n| 20302.0 | -- | -- | 0.00 | Adhoc | One-way | Test | 242.00 |\n| 20303.0 | GTM2YJ | APPROVED | 374780.00 | Series | Multi-city | TEST | 17528.00 |\n| 20303.0 | GTM2YJ | APPROVED | 374780.00 | Series | Multi-city | TEST | 19950.00 |\n| 20304.0 | -- | -- | 0.00 | Adhoc | One-way | Test | 0.00 |\n| 20305.0 | NUQ4HG | APPROVED | 1620.00 | Series | One-way | test | 81.00 |\n| 20306.0 | JMK1RB | APPROVED | 337610.00 | Series | Multi-city | test | 14235.00 |\n| 20306.0 | JMK1RB | APPROVED | 337610.00 | Series | Multi-city | test | 19526.00 |\n| 20307.0 | AN9R8Y | APPROVED | 581.00 | Series | One-way | test | 83.00 |\n| 20307.0 | Z1499Q | APPROVED | 581.00 | Series | One-way | test | 83.00 |\n| 20307.0 | PVIBMT | APPROVED | 581.00 | Series | One-way | test | 83.00 |\n| 20307.0 | C1K52X | APPROVED | 581.00 | Series | One-way | test | 83.00 |\n| 20307.0 | GROUP5 | Hold | 0.00 | Series | One-way | test | 81.00 |\n| 20307.0 | GROUP6 | Hold | 0.00 | Series | One-way | test | 83.00 |\n| 20307.0 | F2SJ3U | APPROVED | 581.00 | Series | One-way | test | 83.00 |\n| 20308.0 | -- | -- | 0.00 | Series | Round-trip | test | 0.00 |\n| 20308.0 | -- | -- | 0.00 | Series | Round-trip | test | 0.00 |\n| 20308.0 | -- | -- | 0.00 | Series | Round-trip | test | 0.00 |\n| 20308.0 | -- | -- | 0.00 | Series | Round-trip | test | 0.00 |\n| 20308.0 | -- | -- | 0.00 | Series | Round-trip | test | 0.00 |\n| 20308.0 | -- | -- | 0.00 | Series | Round-trip | test | 0.00 |\n| 20308.0 | -- | -- | 0.00 | Series | Round-trip | test | 0.00 |\n| 20308.0 | -- | -- | 0.00 | Series | Round-trip | test | 0.00 |\n| 20308.0 | -- | -- | 0.00 | Series | Round-trip | test | 0.00 |\n| 20308.0 | -- | -- | 0.00 | Series | Round-trip | test | 0.00 |\n| 20308.0 | -- | -- | 0.00 | Series | Round-trip | test | 0.00 |\n| 20308.0 | -- | -- | 0.00 | Series | Round-trip | test | 0.00 |\n| 20308.0 | -- | -- | 0.00 | Series | Round-trip | test | 0.00 |\n| 20308.0 | -- | -- | 0.00 | Series | Round-trip | test | 0.00 |\n| 20309.0 | RP7IKY | APPROVED | 3200.00 | Series | Round-trip | test | 170.00 |\n| 20309.0 | RP7IKY | APPROVED | 3200.00 | Series | Round-trip | test | 150.00 |\n| 20309.0 | PTY7HZ | APPROVED | 3160.00 | Series | Round-trip | test | 166.00 |\n| 20309.0 | PTY7HZ | APPROVED | 3160.00 | Series | Round-trip | test | 150.00 |\n| 20309.0 | J4NQFR | APPROVED | 3200.00 | Series | Round-trip | test | 170.00 |\n| 20309.0 | J4NQFR | APPROVED | 3200.00 | Series | Round-trip | test | 150.00 |\n| 20309.0 | JU73TW | APPROVED | 2240.00 | Series | Round-trip | test | 170.00 |\n| 20309.0 | JU73TW | APPROVED | 2240.00 | Series | Round-trip | test | 150.00 |\n| 20309.0 | DP7JKV | APPROVED | 2779.00 | Series | Round-trip | test | 247.00 |\n| 20309.0 | DP7JKV | APPROVED | 2779.00 | Series | Round-trip | test | 150.00 |\n| 20310.0 | DNLPPL | PNR cancelled | 24595.00 | Adhoc | One-way | Testing | 3819.00 |\n| 20311.0 | TU8TGJ | PNR cancelled | 1078.00 | Adhoc | One-way | tstng | 154.00 |\n| 20312.0 | -- | -- | 0.00 | Conference | One-way | philip verify | 0.00 |\n| 20312.0 | -- | -- | 0.00 | Conference | One-way | philip verify | 0.00 |\n| 20313.0 | -- | -- | 0.00 | Conference | One-way | philip verify | 0.00 |\n| 20313.0 | -- | -- | 0.00 | Conference | One-way | philip verify | 0.00 |\n| 20314.0 | -- | -- | 0.00 | Adhoc | Round-trip | TEST | 199.00 |\n| 20314.0 | -- | -- | 0.00 | Adhoc | Round-trip | TEST | 225.00 |\n| 20315.0 | P37NHX | PNR cancelled | 250.00 | Adhoc | One-way | philip verify | 49.00 |\n| 20316.0 | L1SS3K | PNR cancelled | 253.00 | Conference | One-way | philip verify | 229.00 |\n| 20316.0 | X4VE5R | PNR cancelled | 253.00 | Conference | One-way | philip verify | 224.00 |"
-    }
-  ]
-}
+[
+  {
+    "content": {
+      "parts": [
+        {
+          "thoughtSignature": "CrUCAdHtim_UOxULxYfC-C6-i-OMa0sM2cAZyTm5oDnmC45cIn6ADwoCJaLG_URrCHwXP7HjisE2y-tnLwanBT1lmq92DJUvMj2oBM1rE_IrRjnZ5r2MN5PEpP_gN-7P8eGx1e5HceEEo7PN8HyP6oH0agCxiaRclLvmEtFGLw4dLSmIbuV4aBirz8W5-Im3oKUfnE87pT-DBM_fYxplGWcRRQIcM8U952x_Mprj4D7JIK2xFccWN9qM_wgRRef7eVukgk26STI4Hw5nl7ZA8KhdqS8JFFIR8EjyDhF_UD1USslVo1h2NDKVSrPw5o7SchAa8Pks_ovT4YEZbYhsLe79gZwAZhJY5npg-9ntw_kyH3HTGto7wylL8TMUaSvZJ__wr16_o0vn6aeFXnuykoVh6yRrX_B0",
+          "functionCall": {
+            "id": "adk-a263edee-ac03-4d04-8a8e-e6e8a49241a3",
+            "args": {
+              "user_query": "i want booking list for last month"
+            },
+            "name": "top_layer_report_agent"
+          }
+        }
+      ],
+      "role": "model"
+    },
+    "finishReason": "STOP",
+    "usageMetadata": {
+      "candidatesTokenCount": 27,
+      "promptTokenCount": 391,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 391
+        }
+      ],
+      "thoughtsTokenCount": 68,
+      "totalTokenCount": 486
+    },
+    "invocationId": "e-7d80b5ad-d519-4f86-b1d0-6bb48c6b2bc1",
+    "author": "report_agent",
+    "actions": {
+      "stateDelta": {},
+      "artifactDelta": {},
+      "requestedAuthConfigs": {}
+    },
+    "longRunningToolIds": [],
+    "id": "0726cb79-2c6b-4d58-8198-8b7ff8af54d6",
+    "timestamp": 1762855781.842829
+  },
+  {
+    "content": {
+      "parts": [
+        {
+          "functionResponse": {
+            "id": "adk-a263edee-ac03-4d04-8a8e-e6e8a49241a3",
+            "name": "top_layer_report_agent",
+            "response": {
+              "api_details": {
+                "url": "/reports/custom-report/get-data-for-fields-conditions-group-request",
+                "method": "POST"
+              },
+              "payload": {
+                "reportName": "get-data-for-fields-conditions-group-request",
+                "reportBasedOn": "group-request",
+                "chosenFields": [
+                  "groupRequestId",
+                  "groupName",
+                  "pnrStatus",
+                  "requestType",
+                  "sellingFare",
+                  "amountPaid",
+                  "tripType",
+                  "pnr"
+                ],
+                "chosenConditions": {
+                  "dateRangeOfRequests": {
+                    "requestedFrom": "2025-10-01 00:00:00",
+                    "requestedTo": "2025-10-31 23:59:59"
+                  }
+                }
+              },
+              "fields": [
+                {
+                  "name": "groupRequestId",
+                  "type": "text",
+                  "description": "Unique ID for the group booking request.",
+                  "category": "general"
+                },
+                {
+                  "name": "groupName",
+                  "type": "text",
+                  "description": "Name of the group.",
+                  "category": "general"
+                },
+                {
+                  "name": "requestType",
+                  "type": "text",
+                  "description": "Type of the request.",
+                  "category": "general"
+                },
+                {
+                  "name": "tripType",
+                  "type": "text",
+                  "description": "Type of the trip.",
+                  "category": "general"
+                },
+                {
+                  "name": "tripCategory",
+                  "type": "text",
+                  "description": "Category of the trip.",
+                  "category": "booking"
+                },
+                {
+                  "name": "currency",
+                  "type": "text",
+                  "description": "Currency used.",
+                  "category": "fare"
+                },
+                {
+                  "name": "userRemarks",
+                  "type": "text",
+                  "description": "Remarks by the user.",
+                  "category": "booking"
+                },
+                {
+                  "name": "requestedDate",
+                  "type": "date",
+                  "description": "Date when the booking was requested.",
+                  "category": "booking"
+                },
+                {
+                  "name": "statusOfRequest",
+                  "type": "multiSelect",
+                  "description": "Statuses of the request.",
+                  "category": "booking"
+                },
+                {
+                  "name": "groupCategory",
+                  "type": "multiSelect",
+                  "description": "Group categories.",
+                  "category": "booking"
+                },
+                {
+                  "name": "createdBy",
+                  "type": "text",
+                  "description": "Created by user.",
+                  "category": "booking"
+                },
+                {
+                  "name": "sector",
+                  "type": "object",
+                  "description": "Sector information.",
+                  "category": "booking"
+                },
+                {
+                  "name": "countryOfOriginDestination",
+                  "type": "text",
+                  "description": "Country of origin/destination.",
+                  "category": "booking"
+                },
+                {
+                  "name": "requestedDepartureDate",
+                  "type": "date",
+                  "description": "Requested departure date.",
+                  "category": "booking"
+                },
+                {
+                  "name": "requestedFlightNumber",
+                  "type": "text",
+                  "description": "Requested flight number.",
+                  "category": "booking"
+                },
+                {
+                  "name": "requestUser",
+                  "type": "text",
+                  "description": "User who made the request.",
+                  "category": "booking"
+                },
+                {
+                  "name": "approvedDepartureDate",
+                  "type": "date",
+                  "description": "Approved departure date.",
+                  "category": "booking"
+                },
+                {
+                  "name": "approvedFlightNumber",
+                  "type": "text",
+                  "description": "Approved flight number.",
+                  "category": "booking"
+                },
+                {
+                  "name": "approvedNoOfPax",
+                  "type": "number",
+                  "description": "Approved number of passengers.",
+                  "category": "booking"
+                },
+                {
+                  "name": "responseFareFareQuoted",
+                  "type": "number",
+                  "description": "Fare quoted in response.",
+                  "category": "fare"
+                },
+                {
+                  "name": "airlinesRemarks",
+                  "type": "text",
+                  "description": "Remarks from airlines.",
+                  "category": "booking"
+                },
+                {
+                  "name": "transactionStatus",
+                  "type": "text",
+                  "description": "Status of the transaction.",
+                  "category": "booking"
+                },
+                {
+                  "name": "lastActionedTime",
+                  "type": "date",
+                  "description": "Last actioned time.",
+                  "category": "booking"
+                },
+                {
+                  "name": "discountAmount",
+                  "type": "number",
+                  "description": "Discount amount.",
+                  "category": "fare"
+                },
+                {
+                  "name": "ssrs",
+                  "type": "text",
+                  "description": "SSR details.",
+                  "category": "booking"
+                },
+                {
+                  "name": "ssrRevenue",
+                  "type": "number",
+                  "description": "SSR revenue.",
+                  "category": "fare"
+                },
+                {
+                  "name": "displacementFareRemarks",
+                  "type": "text",
+                  "description": "Displacement fare remarks.",
+                  "category": "fare"
+                },
+                {
+                  "name": "adjustedAmount",
+                  "type": "number",
+                  "description": "Adjusted amount.",
+                  "category": "fare"
+                },
+                {
+                  "name": "trasitTime",
+                  "type": "text",
+                  "description": "Transit time.",
+                  "category": "booking"
+                },
+                {
+                  "name": "flightLoad",
+                  "type": "text",
+                  "description": "Flight load.",
+                  "category": "booking"
+                },
+                {
+                  "name": "exchangeRate",
+                  "type": "number",
+                  "description": "Exchange rate.",
+                  "category": "fare"
+                },
+                {
+                  "name": "autoPilotPolicy",
+                  "type": "text",
+                  "description": "Auto pilot policy.",
+                  "category": "booking"
+                },
+                {
+                  "name": "requestProcessedBy",
+                  "type": "text",
+                  "description": "Processed by user.",
+                  "category": "booking"
+                },
+                {
+                  "name": "airlineResponseDate",
+                  "type": "date",
+                  "description": "Airline response date.",
+                  "category": "booking"
+                },
+                {
+                  "name": "referenceRequestId",
+                  "type": "text",
+                  "description": "Reference request ID.",
+                  "category": "booking"
+                },
+                {
+                  "name": "cabin",
+                  "type": "text",
+                  "description": "Cabin information.",
+                  "category": "booking"
+                },
+                {
+                  "name": "baseFare",
+                  "type": "number",
+                  "description": "Base fare.",
+                  "category": "fare"
+                },
+                {
+                  "name": "tax",
+                  "type": "number",
+                  "description": "Tax amount.",
+                  "category": "fare"
+                },
+                {
+                  "name": "evaluatedFare",
+                  "type": "number",
+                  "description": "Evaluated fare.",
+                  "category": "fare"
+                },
+                {
+                  "name": "stops",
+                  "type": "number",
+                  "description": "Number of stops.",
+                  "category": "booking"
+                },
+                {
+                  "name": "groupFare",
+                  "type": "number",
+                  "description": "Group fare.",
+                  "category": "fare"
+                },
+                {
+                  "name": "sellingFare",
+                  "type": "number",
+                  "description": "Selling fare.",
+                  "category": "fare"
+                },
+                {
+                  "name": "agentAcceptedFare",
+                  "type": "number",
+                  "description": "Agent accepted fare.",
+                  "category": "fare"
+                },
+                {
+                  "name": "agentResponseDate",
+                  "type": "date",
+                  "description": "Agent response date.",
+                  "category": "booking"
+                },
+                {
+                  "name": "agentResponseRemarks",
+                  "type": "text",
+                  "description": "Agent response remarks.",
+                  "category": "booking"
+                },
+                {
+                  "name": "agentResponseStatus",
+                  "type": "text",
+                  "description": "Agent response status.",
+                  "category": "booking"
+                },
+                {
+                  "name": "reasonForDeclining",
+                  "type": "text",
+                  "description": "Reason for declining.",
+                  "category": "booking"
+                },
+                {
+                  "name": "pnr",
+                  "type": "text",
+                  "description": "PNR.",
+                  "category": "pnr"
+                },
+                {
+                  "name": "pnrStatus",
+                  "type": "text",
+                  "description": "PNR status.",
+                  "category": "pnr"
+                },
+                {
+                  "name": "fareExpiryDate",
+                  "type": "date",
+                  "description": "Fare expiry date.",
+                  "category": "fare"
+                },
+                {
+                  "name": "amountPaid",
+                  "type": "number",
+                  "description": "Amount paid.",
+                  "category": "payment"
+                },
+                {
+                  "name": "paidPercentage",
+                  "type": "number",
+                  "description": "Percentage of amount paid.",
+                  "category": "payment"
+                },
+                {
+                  "name": "paymentValidityExpiredType",
+                  "type": "text",
+                  "description": "Type of payment validity expired.",
+                  "category": "payment"
+                },
+                {
+                  "name": "updateNameListValidity",
+                  "type": "text",
+                  "description": "Update name list validity.",
+                  "category": "booking"
+                },
+                {
+                  "name": "updateNameListValidityType",
+                  "type": "text",
+                  "description": "Type of update name list validity.",
+                  "category": "booking"
+                },
+                {
+                  "name": "paymentValidityExpired",
+                  "type": "boolean",
+                  "description": "Whether payment validity expired.",
+                  "category": "payment"
+                },
+                {
+                  "name": "agencyName",
+                  "type": "text",
+                  "description": "Agency name.",
+                  "category": "agent"
+                },
+                {
+                  "name": "agentEmailId",
+                  "type": "text",
+                  "description": "Agent email ID.",
+                  "category": "agent"
+                },
+                {
+                  "name": "agentId",
+                  "type": "text",
+                  "description": "Agent ID.",
+                  "category": "agent"
+                },
+                {
+                  "name": "travelIataCode",
+                  "type": "text",
+                  "description": "Travel IATA code.",
+                  "category": "agent"
+                },
+                {
+                  "name": "pos",
+                  "type": "text",
+                  "description": "Point of sale.",
+                  "category": "agent"
+                },
+                {
+                  "name": "agentType",
+                  "type": "text",
+                  "description": "Agent type.",
+                  "category": "agent"
+                },
+                {
+                  "name": "city",
+                  "type": "text",
+                  "description": "City.",
+                  "category": "booking"
+                },
+                {
+                  "name": "country",
+                  "type": "text",
+                  "description": "Country.",
+                  "category": "agent"
+                },
+                {
+                  "name": "negotiationApprovedDate",
+                  "type": "date",
+                  "description": "Negotiation approved date.",
+                  "category": "negotiation"
+                },
+                {
+                  "name": "negotiationRejectedDate",
+                  "type": "date",
+                  "description": "Negotiation rejected date.",
+                  "category": "negotiation"
+                },
+                {
+                  "name": "negotiationRequestedDate",
+                  "type": "date",
+                  "description": "Negotiation requested date.",
+                  "category": "negotiation"
+                },
+                {
+                  "name": "negotiationProcessedCount",
+                  "type": "number",
+                  "description": "Negotiation processed count.",
+                  "category": "negotiation"
+                },
+                {
+                  "name": "negotiationExpiryDate",
+                  "type": "date",
+                  "description": "Negotiation expiry date.",
+                  "category": "negotiation"
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "role": "user"
+    },
+    "invocationId": "e-7d80b5ad-d519-4f86-b1d0-6bb48c6b2bc1",
+    "author": "report_agent",
+    "actions": {
+      "stateDelta": {},
+      "artifactDelta": {},
+      "requestedAuthConfigs": {}
+    },
+    "id": "69be15d8-77df-47a8-a66d-7277ef05d4e8",
+    "timestamp": 1762855803.784906
+  },
+  {
+    "content": {
+      "parts": [
+        {
+          "text": "I found a report that can fetch a booking list for you. This report will include the Group Request ID, Group Name, PNR Status, Request Type, Selling Fare, Amount Paid, Trip Type, and PNR.\n\nI've set the date range to retrieve data for last month (October 2025).\n\nWould you like to proceed with generating this report?"
+        },
+        {
+          "functionCall": {
+            "id": "adk-fe6abf61-846d-4831-9675-08f0ef370b2d",
+            "args": {
+              "api_details": {
+                "method": "POST",
+                "url": "/reports/custom-report/get-data-for-fields-conditions-group-request"
+              },
+              "payload": {
+                "chosenFields": [
+                  "groupRequestId",
+                  "groupName",
+                  "pnrStatus",
+                  "requestType",
+                  "sellingFare",
+                  "amountPaid",
+                  "tripType",
+                  "pnr"
+                ],
+                "chosenConditions": {
+                  "dateRangeOfRequests": {
+                    "requestedFrom": "2025-10-01 00:00:00",
+                    "requestedTo": "2025-10-31 23:59:59"
+                  }
+                },
+                "reportName": "get-data-for-fields-conditions-group-request",
+                "reportBasedOn": "group-request"
+              }
+            },
+            "name": "api_executor_func"
+          }
+        }
+      ],
+      "role": "model"
+    },
+    "finishReason": "STOP",
+    "usageMetadata": {
+      "candidatesTokenCount": 254,
+      "promptTokenCount": 2525,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 2525
+        }
+      ],
+      "thoughtsTokenCount": 124,
+      "totalTokenCount": 2903
+    },
+    "invocationId": "e-7d80b5ad-d519-4f86-b1d0-6bb48c6b2bc1",
+    "author": "report_agent",
+    "actions": {
+      "stateDelta": {},
+      "artifactDelta": {},
+      "requestedAuthConfigs": {}
+    },
+    "longRunningToolIds": [],
+    "id": "86e4c28d-e136-4ddb-9c8a-3498a42c8cc8",
+    "timestamp": 1762855803.803874
+  },
+  {
+    "content": {
+      "parts": [
+        {
+          "functionResponse": {
+            "id": "adk-fe6abf61-846d-4831-9675-08f0ef370b2d",
+            "name": "api_executor_func",
+            "response": {
+              "result": "| Group request id | PNR | PNR status | Amount paid | Request type | Trip type | Group Name | Per pax fare |\n|---|---|---|---|---|---|---|---|\n| 20301.0 | DSTJHJ | APPROVED | 65460.00 | Series | One-way | test | 6546.00 |\n| 20302.0 | -- | -- | 0.00 | Adhoc | One-way | Test | 242.00 |\n| 20303.0 | GTM2YJ | APPROVED | 374780.00 | Series | Multi-city | TEST | 17528.00 |\n| 20303.0 | GTM2YJ | APPROVED | 374780.00 | Series | Multi-city | TEST | 19950.00 |\n| 20304.0 | -- | -- | 0.00 | Adhoc | One-way | Test | 0.00 |\n| 20305.0 | NUQ4HG | APPROVED | 1620.00 | Series | One-way | test | 81.00 |\n| 20306.0 | JMK1RB | APPROVED | 337610.00 | Series | Multi-city | test | 14235.00 |\n| 20306.0 | JMK1RB | APPROVED | 337610.00 | Series | Multi-city | test | 19526.00 |\n| 20307.0 | AN9R8Y | APPROVED | 581.00 | Series | One-way | test | 83.00 |\n| 20307.0 | Z1499Q | APPROVED | 581.00 | Series | One-way | test | 83.00 |\n| 20307.0 | PVIBMT | APPROVED | 581.00 | Series | One-way | test | 83.00 |\n| 20307.0 | C1K52X | APPROVED | 581.00 | Series | One-way | test | 83.00 |\n| 20307.0 | GROUP5 | Hold | 0.00 | Series | One-way | test | 81.00 |\n| 20307.0 | GROUP6 | Hold | 0.00 | Series | One-way | test | 83.00 |\n| 20307.0 | F2SJ3U | APPROVED | 581.00 | Series | One-way | test | 83.00 |\n| 20308.0 | -- | -- | 0.00 | Series | Round-trip | test | 0.00 |\n| 20308.0 | -- | -- | 0.00 | Series | Round-trip | test | 0.00 |\n| 20308.0 | -- | -- | 0.00 | Series | Round-trip | test | 0.00 |\n| 20308.0 | -- | -- | 0.00 | Series | Round-trip | test | 0.00 |\n| 20308.0 | -- | -- | 0.00 | Series | Round-trip | test | 0.00 |\n| 20308.0 | -- | -- | 0.00 | Series | Round-trip | test | 0.00 |\n| 20308.0 | -- | -- | 0.00 | Series | Round-trip | test | 0.00 |\n| 20308.0 | -- | -- | 0.00 | Series | Round-trip | test | 0.00 |\n| 20308.0 | -- | -- | 0.00 | Series | Round-trip | test | 0.00 |\n| 20308.0 | -- | -- | 0.00 | Series | Round-trip | test | 0.00 |\n| 20308.0 | -- | -- | 0.00 | Series | Round-trip | test | 0.00 |\n| 20308.0 | -- | -- | 0.00 | Series | Round-trip | test | 0.00 |\n| 20308.0 | -- | -- | 0.00 | Series | Round-trip | test | 0.00 |\n| 20308.0 | -- | -- | 0.00 | Series | Round-trip | test | 0.00 |\n| 20309.0 | RP7IKY | APPROVED | 3200.00 | Series | Round-trip | test | 170.00 |\n| 20309.0 | RP7IKY | APPROVED | 3200.00 | Series | Round-trip | test | 150.00 |\n| 20309.0 | PTY7HZ | APPROVED | 3160.00 | Series | Round-trip | test | 166.00 |\n| 20309.0 | PTY7HZ | APPROVED | 3160.00 | Series | Round-trip | test | 150.00 |\n| 20309.0 | J4NQFR | APPROVED | 3200.00 | Series | Round-trip | test | 170.00 |\n| 20309.0 | J4NQFR | APPROVED | 3200.00 | Series | Round-trip | test | 150.00 |\n| 20309.0 | JU73TW | APPROVED | 2240.00 | Series | Round-trip | test | 170.00 |\n| 20309.0 | JU73TW | APPROVED | 2240.00 | Series | Round-trip | test | 150.00 |\n| 20309.0 | DP7JKV | APPROVED | 2779.00 | Series | Round-trip | test | 247.00 |\n| 20309.0 | DP7JKV | APPROVED | 2779.00 | Series | Round-trip | test | 150.00 |\n| 20310.0 | DNLPPL | PNR cancelled | 24595.00 | Adhoc | One-way | Testing | 3819.00 |\n| 20311.0 | TU8TGJ | PNR cancelled | 1078.00 | Adhoc | One-way | tstng | 154.00 |\n| 20312.0 | -- | -- | 0.00 | Conference | One-way | philip verify | 0.00 |\n| 20312.0 | -- | -- | 0.00 | Conference | One-way | philip verify | 0.00 |\n| 20313.0 | -- | -- | 0.00 | Conference | One-way | philip verify | 0.00 |\n| 20313.0 | -- | -- | 0.00 | Conference | One-way | philip verify | 0.00 |\n| 20314.0 | -- | -- | 0.00 | Adhoc | Round-trip | TEST | 199.00 |\n| 20314.0 | -- | -- | 0.00 | Adhoc | Round-trip | TEST | 225.00 |\n| 20315.0 | P37NHX | PNR cancelled | 250.00 | Adhoc | One-way | philip verify | 49.00 |\n| 20316.0 | L1SS3K | PNR cancelled | 253.00 | Conference | One-way | philip verify | 229.00 |\n| 20316.0 | X4VE5R | PNR cancelled | 253.00 | Conference | One-way | philip verify | 224.00 |"
+            }
+          }
+        }
+      ],
+      "role": "user"
+    },
+    "invocationId": "e-7d80b5ad-d519-4f86-b1d0-6bb48c6b2bc1",
+    "author": "report_agent",
+    "actions": {
+      "stateDelta": {},
+      "artifactDelta": {},
+      "requestedAuthConfigs": {}
+    },
+    "id": "8f15bbdf-898e-4717-914b-d7d02b1a20d2",
+    "timestamp": 1762855808.436874
+  },
+  {
+    "content": {
+      "parts": [
+        {
+          "text": "Here is the booking list for last month:\n\n| Group request id | PNR | PNR status | Amount paid | Request type | Trip type | Group Name | Per pax fare |\n|---|---|---|---|---|---|---|---|\n| 20301.0 | DSTJHJ | APPROVED | 65460.00 | Series | One-way | test | 6546.00 |\n| 20302.0 | -- | -- | 0.00 | Adhoc | One-way | Test | 242.00 |\n| 20303.0 | GTM2YJ | APPROVED | 374780.00 | Series | Multi-city | TEST | 17528.00 |\n| 20303.0 | GTM2YJ | APPROVED | 374780.00 | Series | Multi-city | TEST | 19950.00 |\n| 20304.0 | -- | -- | 0.00 | Adhoc | One-way | Test | 0.00 |\n| 20305.0 | NUQ4HG | APPROVED | 1620.00 | Series | One-way | test | 81.00 |\n| 20306.0 | JMK1RB | APPROVED | 337610.00 | Series | Multi-city | test | 14235.00 |\n| 20306.0 | JMK1RB | APPROVED | 337610.00 | Series | Multi-city | test | 19526.00 |\n| 20307.0 | AN9R8Y | APPROVED | 581.00 | Series | One-way | test | 83.00 |\n| 20307.0 | Z1499Q | APPROVED | 581.00 | Series | One-way | test | 83.00 |\n| 20307.0 | PVIBMT | APPROVED | 581.00 | Series | One-way | test | 83.00 |\n| 20307.0 | C1K52X | APPROVED | 581.00 | Series | One-way | test | 83.00 |\n| 20307.0 | GROUP5 | Hold | 0.00 | Series | One-way | test | 81.00 |\n| 20307.0 | GROUP6 | Hold | 0.00 | Series | One-way | test | 83.00 |\n| 20307.0 | F2SJ3U | APPROVED | 581.00 | Series | One-way | test | 83.00 |\n| 20308.0 | -- | -- | 0.00 | Series | Round-trip | test | 0.00 |\n| 20308.0 | -- | -- | 0.00 | Series | Round-trip | test | 0.00 |\n| 20308.0 | -- | -- | 0.00 | Series | Round-trip | test | 0.00 |\n| 20308.0 | -- | -- | 0.00 | Series | Round-trip | test | 0.00 |\n| 20308.0 | -- | -- | 0.00 | Series | Round-trip | test | 0.00 |\n| 20308.0 | -- | -- | 0.00 | Series | Round-trip | test | 0.00 |\n| 20308.0 | -- | -- | 0.00 | Series | Round-trip | test | 0.00 |\n| 20308.0 | -- | -- | 0.00 | Series | Round-trip | test | 0.00 |\n| 20308.0 | -- | -- | 0.00 | Series | Round-trip | test | 0.00 |\n| 20308.0 | -- | -- | 0.00 | Series | Round-trip | test | 0.00 |\n| 20308.0 | -- | -- | 0.00 | Series | Round-trip | test | 0.00 |\n| 20308.0 | -- | -- | 0.00 | Series | Round-trip | test | 0.00 |\n| 20308.0 | -- | -- | 0.00 | Series | Round-trip | test | 0.00 |\n| 20308.0 | -- | -- | 0.00 | Series | Round-trip | test | 0.00 |\n| 20309.0 | RP7IKY | APPROVED | 3200.00 | Series | Round-trip | test | 170.00 |\n| 20309.0 | RP7IKY | APPROVED | 3200.00 | Series | Round-trip | test | 150.00 |\n| 20309.0 | PTY7HZ | APPROVED | 3160.00 | Series | Round-trip | test | 166.00 |\n| 20309.0 | PTY7HZ | APPROVED | 3160.00 | Series | Round-trip | test | 150.00 |\n| 20309.0 | J4NQFR | APPROVED | 3200.00 | Series | Round-trip | test | 170.00 |\n| 20309.0 | J4NQFR | APPROVED | 3200.00 | Series | Round-trip | test | 150.00 |\n| 20309.0 | JU73TW | APPROVED | 2240.00 | Series | Round-trip | test | 170.00 |\n| 20309.0 | JU73TW | APPROVED | 2240.00 | Series | Round-trip | test | 150.00 |\n| 20309.0 | DP7JKV | APPROVED | 2779.00 | Series | Round-trip | test | 247.00 |\n| 20309.0 | DP7JKV | APPROVED | 2779.00 | Series | Round-trip | test | 150.00 |\n| 20310.0 | DNLPPL | PNR cancelled | 24595.00 | Adhoc | One-way | Testing | 3819.00 |\n| 20311.0 | TU8TGJ | PNR cancelled | 1078.00 | Adhoc | One-way | tstng | 154.00 |\n| 20312.0 | -- | -- | 0.00 | Conference | One-way | philip verify | 0.00 |\n| 20312.0 | -- | -- | 0.00 | Conference | One-way | philip verify | 0.00 |\n| 20313.0 | -- | -- | 0.00 | Conference | One-way | philip verify | 0.00 |\n| 20313.0 | -- | -- | 0.00 | Conference | One-way | philip verify | 0.00 |\n| 20314.0 | -- | -- | 0.00 | Adhoc | Round-trip | TEST | 199.00 |\n| 20314.0 | -- | -- | 0.00 | Adhoc | Round-trip | TEST | 225.00 |\n| 20315.0 | P37NHX | PNR cancelled | 250.00 | Adhoc | One-way | philip verify | 49.00 |\n| 20316.0 | L1SS3K | PNR cancelled | 253.00 | Conference | One-way | philip verify | 229.00 |\n| 20316.0 | X4VE5R | PNR cancelled | 253.00 | Conference | One-way | philip verify | 224.00 |"
+        }
+      ],
+      "role": "model"
+    },
+    "finishReason": "STOP",
+    "usageMetadata": {
+      "candidatesTokenCount": 2062,
+      "promptTokenCount": 4847,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 4847
+        }
+      ],
+      "totalTokenCount": 6909
+    },
+    "invocationId": "e-7d80b5ad-d519-4f86-b1d0-6bb48c6b2bc1",
+    "author": "report_agent",
+    "actions": {
+      "stateDelta": {},
+      "artifactDelta": {},
+      "requestedAuthConfigs": {}
+    },
+    "id": "f9e12156-9d05-42be-8de5-4773cd1e2310",
+    "timestamp": 1762855808.445721
+  }
+]

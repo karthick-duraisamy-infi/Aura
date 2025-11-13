@@ -21,10 +21,19 @@ const RealService = ChatBotService.enhanceEndpoints({}).injectEndpoints({
           body: param
         };
       },
+    }),
+    getUserResponse: build.mutation<any, any>({
+      query: (param) => {
+        return {
+          url: `run`,
+          method: 'POST',
+          body: param
+        };
+      },
     })
   })
 })
 
 export const { useGetChatBotResponseQuery } = articleService;
 
-export const { useGetAccessResponseMutation } = RealService;
+export const { useGetAccessResponseMutation, useGetUserResponseMutation } = RealService;
