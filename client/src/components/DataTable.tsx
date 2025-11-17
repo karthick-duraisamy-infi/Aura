@@ -31,9 +31,8 @@ export default function DataTable({ title, subtitle, columns, data }: DataTableP
                 {columns.map((column) => (
                   <TableHead
                     key={column.key}
-                    className={`font-semibold text-xs md:text-sm whitespace-nowrap ${
-                      column.align === 'right' ? 'text-right' : column.align === 'center' ? 'text-center' : 'text-left'
-                    }`}
+                    className={`font-semibold text-xs md:text-sm whitespace-nowrap ${column.align === 'right' ? 'text-right' : column.align === 'center' ? 'text-center' : 'text-left'
+                      }`}
                   >
                     {column.label}
                   </TableHead>
@@ -41,23 +40,34 @@ export default function DataTable({ title, subtitle, columns, data }: DataTableP
               </TableRow>
             </TableHeader>
             <TableBody>
-              {data.map((row, index) => (
-                <TableRow
-                  key={index}
-                  className="hover:bg-muted/30 transition-colors"
-                >
-                  {columns.map((column) => (
-                    <TableCell
-                      key={column.key}
-                      className={`text-xs md:text-sm whitespace-nowrap ${
-                        column.align === 'right' ? 'text-right' : column.align === 'center' ? 'text-center' : 'text-left'
-                      }`}
-                    >
-                      {row[column.key]}
-                    </TableCell>
-                  ))}
+              {data.length === 0 ? (
+                <TableRow>
+                  <TableCell
+                    colSpan={columns.length}
+                    className="text-center text-muted-foreground py-10"
+                  >
+                    No data available for this report
+                  </TableCell>
                 </TableRow>
-              ))}
+              ) : (
+                data.map((row, index) => (
+                  <TableRow key={index} className="hover:bg-muted/30 transition-colors">
+                    {columns.map((column) => (
+                      <TableCell
+                        key={column.key}
+                        className={`text-xs md:text-sm whitespace-nowrap ${column.align === 'right'
+                            ? 'text-right'
+                            : column.align === 'center'
+                              ? 'text-center'
+                              : 'text-left'
+                          }`}
+                      >
+                        {row[column.key]}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))
+              )}
             </TableBody>
           </Table>
         </div>

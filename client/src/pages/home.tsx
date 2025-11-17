@@ -44,7 +44,7 @@ interface Activity {
 }
 
 export default function Home() {
-  const { data, error, isLoading } = useGetChatBotResponseQuery();
+  // const { data, error, isLoading } = useGetChatBotResponseQuery();
 
   const tokenInfo = useSelector(
     (state: any) => state.AccessTokenReducer.tokenInfo
@@ -64,10 +64,12 @@ export default function Home() {
   const [activities, setActivities] = useState<Activity[]>([]);
   const [currentReportTitle, setCurrentReportTitle] = useState("");
   const [reportData, setReportData] = useState<any[]>([]);
-  const [jsonData, setJsonData] = useState<any>([]);
+  // const [reportRawText, setReportRawText] = useState("");
+  // const [jsonData, setJsonData] = useState<any>([]);
   const [reportColumns, setReportColumns] = useState<any[]>([]);
-  const [isLoadingData, setIsLoadingData] = useState(false);
+  // const [isLoadingData, setIsLoadingData] = useState(false);
   const [reportHeaderText, setReportHeaderText] = useState<string>("");
+  const [reportViewType, setReportViewType] = useState<"table" | "text" | "empty-table">("table");
 
   useEffect(() => {
     accessTokenService({
@@ -96,92 +98,146 @@ export default function Home() {
   // }, [])
 
   useEffect(() => {
-    console.log(data);
-    let dataIndex: number = -1;
+    if (getUserResponseStatus?.isSuccess && getUserResponseStatus?.data) {
+      const dataSet = getUserResponseStatus?.data?.response?.data;
+      let dataIndex: number = -1;
 
-    data?.map((info: any, index: number) => {
-      if (info?.content?.role === "model") {
-        dataIndex = index;
+      dataSet?.map((info: any, index: number) => {
+        if (info?.content?.role === "model") {
+          dataIndex = index;
+        }
+      })
+      if (dataIndex > -1) {
+        const responseText = (dataSet as any)[dataIndex]?.content?.parts[0].text
+
+        const { type, columns, data, headerText } = parseTableFromText(responseText);
+        setReportViewType(type as "table" | "empty-table" | "text");
+
+        setReportColumns(columns);
+        setReportData(data);
+        setReportHeaderText(headerText);
+
+        setViewMode("report");
+
+        addActivity(query, "Report");
+
       }
-    })
-    if (dataIndex > -1) {
-      console.log('dataIndex', dataIndex)
-      setJsonData((data as any)[dataIndex]?.content)
-      console.log((data as any)[dataIndex]?.content?.parts[0].text)
     }
-  }, [data]);
+  }, [getUserResponseStatus]);
 
   useEffect(() => {
     console.log(getUserResponseStatus);
   }, [getUserResponseStatus])
 
   const parseTableFromText = (text: string) => {
-    const lines = text.split("\n");
-    const tableLines = lines.filter((line) => line.includes("|"));
+    const lines = text?.split("\n");
+    const tableLines = lines?.filter((line) => line?.includes("|"));
 
-    // Extract text before the table
-    const firstTableLineIndex = lines.findIndex((line) => line.includes("|"));
-    const headerText =
-      firstTableLineIndex > 0
-        ? lines.slice(0, firstTableLineIndex).join("\n").trim()
-        : "";
+    // CASE 1: MARKDOWN STYLE TABLE
+    if (tableLines?.length >= 2) {
+      const firstTableLineIndex = lines?.findIndex((line) => line?.includes("|"));
+      const headerText =
+        firstTableLineIndex > 0
+          ? lines?.slice(0, firstTableLineIndex)?.join("\n")?.trim()
+          : "";
 
-    if (tableLines.length < 2) return { columns: [], data: [], headerText };
-
-    // Parse header
-    const headerLine = tableLines[0];
-    const headers = headerLine
-      .split("|")
-      .map((h) => h.trim())
-      .filter((h) => h);
-
-    // Skip separator line (index 1)
-    // Parse data rows
-    const dataRows = tableLines.slice(2).map((line) => {
-      const values = line
+      const headerLine = tableLines[0];
+      const headers = headerLine
         .split("|")
-        .map((v) => v.trim())
-        .filter((v) => v);
-      const row: any = {};
-      headers.forEach((header, index) => {
-        const key = header.toLowerCase().replace(/\s+/g, "_");
-        row[key] = values[index] || "";
+        .map((h) => h.trim())
+        .filter((h) => h && h !== "---");
+
+      const dataRows = tableLines.slice(2).map((line) => {
+        const values = line
+          .split("|")
+          .map((v) => v.trim())
+          .filter((v) => v);
+
+        const row: any = {};
+        headers.forEach((header, index) => {
+          const key = header.toLowerCase().replace(/\s+/g, "_");
+          row[key] = values[index] || "";
+        });
+        return row;
       });
-      return row;
+
+      const columns = headers?.map((header) => ({
+        key: header?.toLowerCase()?.replace(/\s+/g, "_"),
+        label: header,
+        align: "left" as const,
+      }));
+
+      return { type: "table", columns, data: dataRows, headerText };
+    }
+
+    // CASE 2: PLAIN TEXT → AUTO TABLE (DYNAMIC, NO STATIC COLUMNS)
+
+    const keyValueRegex = /^([\w\s\.\-\/]+)\s*[:\-]\s*(.+)$/i;
+
+    const extractedPairs: Record<string, string> = {};
+
+    lines?.forEach((line) => {
+      const match = line.match(keyValueRegex);
+      if (match) {
+        const key = match[1].trim();
+        const value = match[2].trim();
+        extractedPairs[key] = value;
+      }
     });
 
-    // Create columns configuration
-    const columns = headers.map((header) => ({
-      key: header.toLowerCase().replace(/\s+/g, "_"),
-      label: header,
-      align: "left" as const,
-    }));
+    // Found structured key:value fields → treat as table
+    if (Object.keys(extractedPairs).length > 0) {
+      const columns = Object.keys(extractedPairs).map((col) => ({
+        key: col.toLowerCase().replace(/\s+/g, "_"),
+        label: col,
+        align: "left" as const,
+      }));
 
-    return { columns, data: dataRows, headerText };
-  };
-
-  const loadReportData = async () => {
-    setIsLoadingData(true);
-    try {
-      if (jsonData.parts && jsonData.parts[0] && jsonData.parts[0].text) {
-        const { columns, data, headerText } = parseTableFromText(
-          jsonData.parts[0].text
-        );
-        setReportColumns(columns);
-        setReportData(data);
-        setReportHeaderText(headerText);
-      }
-    } catch (error) {
-      console.error("Error loading report data:", error);
-      toast({
-        title: "Error loading data",
-        description: "Failed to load report data from JSON file.",
-        variant: "destructive",
+      const row: any = {};
+      Object.entries(extractedPairs).forEach(([key, val]) => {
+        row[key.toLowerCase().replace(/\s+/g, "_")] = val;
       });
-    } finally {
-      setIsLoadingData(false);
+
+      return {
+        type: "table",
+        columns,
+        data: [row],
+        headerText: text?.trim(),
+      };
     }
+
+    // CASE 3: PURE TEXT → NO TABLE POSSIBLE
+    return {
+      type: "text",
+      columns: [],
+      data: [],
+      headerText: text,
+    };
   };
+
+
+  // const loadReportData = async () => {
+  //   setIsLoadingData(true);
+  //   try {
+  //     if (jsonData.parts && jsonData.parts[0] && jsonData.parts[0].text) {
+  //       const { columns, data, headerText } = parseTableFromText(
+  //         jsonData.parts[0].text
+  //       );
+  //       setReportColumns(columns);
+  //       setReportData(data);
+  //       setReportHeaderText(headerText);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error loading report data:", error);
+  //     toast({
+  //       title: "Error loading data",
+  //       description: "Failed to load report data from JSON file.",
+  //       variant: "destructive",
+  //     });
+  //   } finally {
+  //     setIsLoadingData(false);
+  //   }
+  // };
 
   const dashboardBarData = [
     { name: "Jan", value: 4000 },
@@ -199,7 +255,11 @@ export default function Home() {
     { name: "Books", value: 100 },
   ];
 
-  const handleGenerateReport = () => {
+  const handleGenerateReport = async () => {
+    const title = query || "Generated Report";
+    setCurrentReportTitle(title);
+    setFeedback(null);
+
     let requestData = {
       app_name: tokenInfo?.app_name,
       user_id: tokenInfo?.user_id,
@@ -207,23 +267,11 @@ export default function Home() {
       session_id: tokenInfo?.session_id,
       new_message: {
         role: "user",
-        parts: [
-          {
-            text: "Hello",
-          },
-        ],
+        parts: [{ text: query }],
       },
     };
 
-    getUserResponse(requestData)
-    console.log("Generate Report triggered", query);
-    const title = query || "Booking List - Last Month";
-    setCurrentReportTitle(title);
-    loadReportData();
-    setViewMode("report");
-    setFeedback(null);
-    setImprovementText("");
-    addActivity(query || "Show me the booking list for last month", "Report");
+    getUserResponse(requestData);  // API Call
   };
 
   const handleGenerateDashboard = () => {
@@ -296,6 +344,25 @@ export default function Home() {
     }
   };
 
+  // useEffect(() => {
+  //   if (getUserResponseStatus) {
+  //     const responseText =
+  //       getUserResponseStatus.data?.response?.data?.parts?.[0]?.text || "";
+
+  //     setReportRawText(responseText);
+
+  //     const { columns, data, headerText } = parseTableFromText(responseText);
+
+  //     setReportColumns(columns);
+  //     setReportData(data);
+  //     setReportHeaderText(headerText);
+
+  //     setViewMode("report");
+
+  //     addActivity(query, "Report");
+  //   }
+  // }, [getUserResponseStatus]);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
       <div className="flex min-h-screen">
@@ -316,8 +383,8 @@ export default function Home() {
         {/* Main Content Area (70% or 100% if no activities) */}
         <div
           className={`flex-1 ${activities.length > 0 && viewMode === "input"
-              ? "lg:w-[70%]"
-              : "w-full"
+            ? "lg:w-[70%]"
+            : "w-full"
             } overflow-y-auto`}
         >
           <div className="max-w-5xl mx-auto px-4 py-8 md:py-12 md:px-8 lg:px-12">
@@ -365,14 +432,25 @@ export default function Home() {
                       <Button
                         variant="outline"
                         onClick={handleGenerateReport}
-                        data-testid="button-generate-report"
+                        disabled={!query.trim() || getUserResponseStatus.isLoading}
                         className="w-full sm:w-auto border-2 hover:bg-accent/50 transition-all"
                         size="lg"
-                        disabled={!query.trim()}
                       >
-                        <FileText className="w-4 h-4 mr-2" />
-                        Generate Report
+
+                        {getUserResponseStatus.isLoading ? (
+                          <div className="flex items-center gap-2">
+                            <div className="h-4 w-4 border-2 border-t-transparent border-primary rounded-full animate-spin"></div>
+                            Loading...
+                          </div>
+                        ) : (
+                          <>
+                            <FileText className="w-4 h-4 mr-2" />
+                            Generate Report
+                          </>
+                        )}
+
                       </Button>
+
                       <Button
                         onClick={handleGenerateDashboard}
                         data-testid="button-generate-dashboard"
@@ -426,7 +504,7 @@ export default function Home() {
                   </div>
                 </div>
 
-                {isLoadingData ? (
+                {/* {isLoadingData ? (
                   <Card className="shadow-lg border-border/50">
                     <CardContent className="p-8 text-center">
                       <div className="flex flex-col items-center gap-4">
@@ -446,7 +524,32 @@ export default function Home() {
                       data={reportData}
                     />
                   </>
-                )}
+                )} */}
+
+                {getUserResponseStatus.isLoading ? (
+                  <Card className="shadow-lg border-border/50">
+                    <CardContent className="p-8 text-center">
+                      <div className="flex flex-col items-center gap-4">
+                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+                        <p className="text-muted-foreground">
+                          Generating report...
+                        </p>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ) : (reportViewType === "table" || reportViewType === "empty-table") ? (
+                  <DataTable
+                    title={currentReportTitle}
+                    subtitle={reportHeaderText}
+                    columns={reportColumns}
+                    data={reportData}
+                  />
+                )
+                  : (
+                    <div style={{ whiteSpace: "pre-line", marginTop: 10 }}>
+                      {reportHeaderText}
+                    </div>
+                  )}
 
                 {feedback === null && (
                   <Card className="mx-auto shadow-lg border-border/50 overflow-hidden">
