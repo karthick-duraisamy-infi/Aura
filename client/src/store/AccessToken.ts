@@ -9,7 +9,7 @@ const reducer = createSlice({
   reducers: {
     setTokenInfo: (state, { payload }: PayloadAction<{ value: any }>) => {
       if (payload) {
-        state.tokenInfo = payload.value;
+        state.tokenInfo = payload;
       }
     },
     cleanUpSetting: () => {

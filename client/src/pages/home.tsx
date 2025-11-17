@@ -30,6 +30,8 @@ import {
   useGetChatBotResponseQuery,
   useGetUserResponseMutation,
 } from "@/service/chatbot/chatbot";
+import { useDispatch, useSelector } from "react-redux";
+import { setTokenInfo } from "@/store/AccessToken";
 
 type ViewMode = "input" | "report" | "dashboard";
 type FeedbackState = null | "yes" | "no";
@@ -44,12 +46,17 @@ interface Activity {
 export default function Home() {
   const { data, error, isLoading } = useGetChatBotResponseQuery();
 
+  const tokenInfo = useSelector(
+    (state: any) => state.AccessTokenReducer.tokenInfo
+  );
+
   const [getUserResponse, getUserResponseStatus] = useGetUserResponseMutation();
 
-  const [ accessTokenService, accessTokenServiceStatus ] = useGetAccessResponseMutation();
+  const [accessTokenService, accessTokenServiceStatus] = useGetAccessResponseMutation();
 
   const { toast } = useToast();
   const [query, setQuery] = useState("");
+  const dispatch = useDispatch();
   const [viewMode, setViewMode] = useState<ViewMode>("input");
   const [feedback, setFeedback] = useState<FeedbackState>(null);
   const [improvementText, setImprovementText] = useState("");
@@ -77,8 +84,8 @@ export default function Home() {
 
   useEffect(() => {
     console.log(accessTokenServiceStatus);
-    if(accessTokenServiceStatus?.isSuccess && accessTokenServiceStatus?.data) {
-      debugger;
+    if (accessTokenServiceStatus?.isSuccess && accessTokenServiceStatus?.data) {
+      dispatch(setTokenInfo(accessTokenServiceStatus?.data?.response?.data));
     }
   }, [accessTokenServiceStatus])
 
@@ -93,11 +100,11 @@ export default function Home() {
     let dataIndex: number = -1;
 
     data?.map((info: any, index: number) => {
-      if(info?.content?.role === "model") {
+      if (info?.content?.role === "model") {
         dataIndex = index;
       }
     })
-    if(dataIndex > -1) {
+    if (dataIndex > -1) {
       console.log('dataIndex', dataIndex)
       setJsonData((data as any)[dataIndex]?.content)
       console.log((data as any)[dataIndex]?.content?.parts[0].text)
@@ -194,10 +201,10 @@ export default function Home() {
 
   const handleGenerateReport = () => {
     let requestData = {
-      app_name: "report_agent",
-      user_id: "1",
-      app_code: "RM",
-      session: "1-RM-RM-8434b3de",
+      app_name: tokenInfo?.app_name,
+      user_id: tokenInfo?.user_id,
+      app_code: tokenInfo?.state?.app_code,
+      session_id: tokenInfo?.session_id,
       new_message: {
         role: "user",
         parts: [
@@ -207,6 +214,7 @@ export default function Home() {
         ],
       },
     };
+
     getUserResponse(requestData)
     console.log("Generate Report triggered", query);
     const title = query || "Booking List - Last Month";
@@ -307,11 +315,10 @@ export default function Home() {
 
         {/* Main Content Area (70% or 100% if no activities) */}
         <div
-          className={`flex-1 ${
-            activities.length > 0 && viewMode === "input"
+          className={`flex-1 ${activities.length > 0 && viewMode === "input"
               ? "lg:w-[70%]"
               : "w-full"
-          } overflow-y-auto`}
+            } overflow-y-auto`}
         >
           <div className="max-w-5xl mx-auto px-4 py-8 md:py-12 md:px-8 lg:px-12">
             {viewMode === "input" && (
