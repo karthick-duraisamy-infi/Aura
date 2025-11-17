@@ -77,6 +77,9 @@ export default function Home() {
 
   useEffect(() => {
     console.log(accessTokenServiceStatus);
+    if(accessTokenServiceStatus?.isSuccess && accessTokenServiceStatus?.data) {
+      debugger;
+    }
   }, [accessTokenServiceStatus])
 
 

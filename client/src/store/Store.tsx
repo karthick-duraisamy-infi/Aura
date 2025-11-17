@@ -8,12 +8,14 @@ import { Provider } from "react-redux";
 import type { FC } from "react";
 import { CommonService, ChatBotService } from "@/service/Services";
 import { serviceErrorLoggerMiddleware } from "./Service.middleware";
+import { AccessTokenReducer } from "./AccessToken";
 
 export const store = configureStore({
   reducer: {
     // ✅ Add both RTK Query API reducers
     [CommonService.reducerPath]: CommonService.reducer,
     [ChatBotService.reducerPath]: ChatBotService.reducer,
+    AccessTokenReducer,
   },
 
   middleware: (getDefaultMiddleware) => {
