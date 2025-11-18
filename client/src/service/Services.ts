@@ -10,7 +10,7 @@ const CommonService = createApi({
   endpoints: () => ({}),
 });
 
-const getBaseUrl = () => {
+export const getBaseUrl = () => {
   if (window?.location?.href?.includes("localhost")) {
     return import.meta.env.VITE_API_URL;
   }

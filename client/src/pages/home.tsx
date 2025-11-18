@@ -32,6 +32,11 @@ import {
 } from "@/service/chatbot/chatbot";
 import { useDispatch, useSelector } from "react-redux";
 import { setTokenInfo } from "@/store/AccessToken";
+import MarkdownRenderer from "@/components/ui/MarkDownRenderer";
+
+// @ts-ignore
+import { ChatClient } from "../lib/index.esm.js";
+import { getBaseUrl } from "@/service/Services.js";
 
 type ViewMode = "input" | "report" | "dashboard";
 type FeedbackState = null | "yes" | "no";
@@ -69,27 +74,37 @@ export default function Home() {
   const [reportColumns, setReportColumns] = useState<any[]>([]);
   // const [isLoadingData, setIsLoadingData] = useState(false);
   const [reportHeaderText, setReportHeaderText] = useState<string>("");
-  const [reportViewType, setReportViewType] = useState<"table" | "text" | "empty-table">("table");
+  const [reportViewType, setReportViewType] = useState<"table" | "text" | "empty-table" | "markdown">("table");
+  const [markdownData, setMarkdownData] = useState<string>();
+  const [isGenerated, setIsGenerated] = useState<boolean>(false);
 
-  useEffect(() => {
-    accessTokenService({
-      app_name: "report_agent",
-      user_id: 1,
-      email_id: "grouprm@infinitisoftware.net",
-      first_name: "Ashwin",
-      last_name: "sathish",
-      group_alias: "RM",
-      app_code: "RM",
-      state: {},
-    });
-  }, []);
+  const chatClient = new ChatClient({
+    baseUrl: getBaseUrl(),
+    encryption: { enable: false, salt: "infiniti" },
+    http: {
+      timeout: 300000,
+      retries: 3,
+    } // Set to true if your backend uses encryption
+  });
+  // useEffect(() => {
+  //   accessTokenService({
+  //     app_name: "report_agent",
+  //     user_id: 1,
+  //     email_id: "grouprm@infinitisoftware.net",
+  //     first_name: "Ashwin",
+  //     last_name: "sathish",
+  //     group_alias: "RM",
+  //     app_code: "RM",
+  //     state: {},
+  //   });
+  // }, []);
 
   useEffect(() => {
     console.log(accessTokenServiceStatus);
     if (accessTokenServiceStatus?.isSuccess && accessTokenServiceStatus?.data) {
       dispatch(setTokenInfo(accessTokenServiceStatus?.data?.response?.data));
     }
-  }, [accessTokenServiceStatus])
+  }, [accessTokenServiceStatus]);
 
 
 
@@ -111,9 +126,13 @@ export default function Home() {
         const responseText = (dataSet as any)[dataIndex]?.content?.parts[0].text
 
         const { type, columns, data, headerText } = parseTableFromText(responseText);
-        setReportViewType(type as "table" | "empty-table" | "text");
+        setReportViewType(type as "table" | "empty-table" | "text" | "markdown");
 
-        setReportColumns(columns);
+        if (type !== "markdown")
+          setReportColumns(columns);
+        else
+          setMarkdownData(data?.[0]);
+
         setReportData(data);
         setReportHeaderText(headerText);
 
@@ -131,14 +150,23 @@ export default function Home() {
 
   const parseTableFromText = (text: string) => {
     const lines = text?.split("\n");
-    const tableLines = lines?.filter((line) => line?.includes("|"));
+    const tableLines = lines?.filter((line) => line.includes("|"));
 
-    // CASE 1: MARKDOWN STYLE TABLE
+    const isMarkdownDetected =
+      /^#{1,6}\s+/.test(text) ||
+      /```/.test(text) ||
+      /^[-*+]\s+/.test(text) ||
+      /^\d+\.\s+/.test(text) ||
+      /\[.*?\]\(.*?\)/.test(text);
+
+    let tableResult: any = null;
+
+    // --- CASE: MARKDOWN STYLE TABLE ---
     if (tableLines?.length >= 2) {
-      const firstTableLineIndex = lines?.findIndex((line) => line?.includes("|"));
+      const firstTableLineIndex = lines.findIndex((l) => l.includes("|"));
       const headerText =
         firstTableLineIndex > 0
-          ? lines?.slice(0, firstTableLineIndex)?.join("\n")?.trim()
+          ? lines.slice(0, firstTableLineIndex).join("\n").trim()
           : "";
 
       const headerLine = tableLines[0];
@@ -161,32 +189,32 @@ export default function Home() {
         return row;
       });
 
-      const columns = headers?.map((header) => ({
-        key: header?.toLowerCase()?.replace(/\s+/g, "_"),
+      const columns = headers.map((header) => ({
+        key: header.toLowerCase().replace(/\s+/g, "_"),
         label: header,
         align: "left" as const,
       }));
 
-      return { type: "table", columns, data: dataRows, headerText };
+      tableResult = {
+        type: "table",
+        columns,
+        data: dataRows,
+        headerText,
+      };
     }
 
-    // CASE 2: PLAIN TEXT → AUTO TABLE (DYNAMIC, NO STATIC COLUMNS)
-
+    // --- CASE: STRUCTURED KEY:VALUE ---
     const keyValueRegex = /^([\w\s\.\-\/]+)\s*[:\-]\s*(.+)$/i;
-
     const extractedPairs: Record<string, string> = {};
 
     lines?.forEach((line) => {
       const match = line.match(keyValueRegex);
       if (match) {
-        const key = match[1].trim();
-        const value = match[2].trim();
-        extractedPairs[key] = value;
+        extractedPairs[match[1].trim()] = match[2].trim();
       }
     });
 
-    // Found structured key:value fields → treat as table
-    if (Object.keys(extractedPairs).length > 0) {
+    if (!tableResult && Object.keys(extractedPairs).length > 0) {
       const columns = Object.keys(extractedPairs).map((col) => ({
         key: col.toLowerCase().replace(/\s+/g, "_"),
         label: col,
@@ -198,15 +226,30 @@ export default function Home() {
         row[key.toLowerCase().replace(/\s+/g, "_")] = val;
       });
 
-      return {
+      tableResult = {
         type: "table",
         columns,
         data: [row],
-        headerText: text?.trim(),
+        headerText: text.trim(),
       };
     }
 
-    // CASE 3: PURE TEXT → NO TABLE POSSIBLE
+    // --- FINAL OUTPUT ---
+
+    // ✔ If markdown present → always treat as markdown  
+    if (isMarkdownDetected) {
+      return {
+        type: "markdown",
+        columns: [],
+        data: [text.trim()],
+        headerText: "",
+      };
+    }
+
+    // ✔ Only table (no markdown)
+    if (tableResult) return tableResult;
+
+    // ✔ Pure text
     return {
       type: "text",
       columns: [],
@@ -214,6 +257,7 @@ export default function Home() {
       headerText: text,
     };
   };
+
 
 
   // const loadReportData = async () => {
@@ -271,8 +315,53 @@ export default function Home() {
       },
     };
 
-    getUserResponse(requestData);  // API Call
+
+    // let requestedData = {
+    //   app_name: tokenInfo?.app_name,
+    //   user_id: tokenInfo?.user_id,
+    //   session_id: tokenInfo?.session_id,
+    //   app_code: tokenInfo?.app_code,
+    // }
+
+    const userData = {
+      appName: "report_agent",
+      userId: 1,
+      emailId: "grouprm@infinitisoftware.net",
+      firstName: "Ashwin",
+      lastName: "sathish",
+      groupAlias: "RM",
+      appCode: "RM",
+      // state: {},
+    };
+
+    setIsGenerated(true);
+    const responsedData = await chatClient?.sendQuery(
+      query,
+      userData
+    );
+
+    // To set the responsed data
+    if (responsedData) {
+      setIsGenerated(false);
+
+      const { type, columns, data, headerText } = parseTableFromText(responsedData);
+      setReportViewType(type as "table" | "empty-table" | "text" | "markdown");
+
+      if (type !== "markdown")
+        setReportColumns(columns);
+      else
+        setMarkdownData(data?.[0]);
+
+      setReportData(data);
+      setReportHeaderText(headerText);
+
+      setViewMode("report");
+
+      addActivity(query, "Report");
+    }
+    // getUserResponse(requestData);  // API Call
   };
+
 
   const handleGenerateDashboard = () => {
     console.log("Generate Dashboard triggered", query);
@@ -432,12 +521,12 @@ export default function Home() {
                       <Button
                         variant="outline"
                         onClick={handleGenerateReport}
-                        disabled={!query.trim() || getUserResponseStatus.isLoading}
+                        disabled={!query.trim() || getUserResponseStatus.isLoading || isGenerated === true}
                         className="w-full sm:w-auto border-2 hover:bg-accent/50 transition-all"
                         size="lg"
                       >
 
-                        {getUserResponseStatus.isLoading ? (
+                        {(getUserResponseStatus.isLoading || isGenerated === true) ? (
                           <div className="flex items-center gap-2">
                             <div className="h-4 w-4 border-2 border-t-transparent border-primary rounded-full animate-spin"></div>
                             Loading...
@@ -526,7 +615,7 @@ export default function Home() {
                   </>
                 )} */}
 
-                {getUserResponseStatus.isLoading ? (
+                {(getUserResponseStatus.isLoading || isGenerated === true) ? (
                   <Card className="shadow-lg border-border/50">
                     <CardContent className="p-8 text-center">
                       <div className="flex flex-col items-center gap-4">
@@ -545,7 +634,9 @@ export default function Home() {
                     data={reportData}
                   />
                 )
-                  : (
+                  : reportViewType === "markdown" && markdownData ? (
+                    <MarkdownRenderer content={markdownData} />
+                  ) : (
                     <div style={{ whiteSpace: "pre-line", marginTop: 10 }}>
                       {reportHeaderText}
                     </div>
